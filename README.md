@@ -75,13 +75,13 @@ Libraries & Tools
   
 🧩 Project Structure
 
-Vitalis-AI/
-│
-├── index.html       # Main dashboard UI
-├── style.css        # Styling and layout
-├── script.js        # Application logic & AI simulation
-│
-└── assets/          # (Optional) images/icons
+Vitalis-AI/ 
+│ 
+├── index.html # Main dashboard UI 
+├── style.css # Styling and layout 
+├── script.js # Application logic & AI simulation
+│ 
+└── assets/ # (Optional) images/icons
 
 ⚙️ How to Run
 
@@ -114,5 +114,6 @@ Vitalis-AI/
 👩‍💻 Author
 
 Harshitha C
+
 🔗GitHub: https://github.com/harshithareddy-8
 🔗Linkedin: https://www.linkedin.com/in/harshitha-c-7059412a9
