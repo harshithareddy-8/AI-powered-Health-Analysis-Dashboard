@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vitalis AI | Health Analysis Dashboard</title>
+    <meta name="description" content="AI-powered health analysis dashboard for real-time monitoring and personalized insights.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom Style -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+    <canvas id="particleCanvas"></canvas>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i data-lucide="activity"></i>
+                <span>Vitalis AI</span>
+            </div>
+            <nav class="nav-menu">
+                <a href="#" class="nav-link active" data-tab="overview">
+                    <i data-lucide="layout-dashboard"></i>
+                    <span>Overview</span>
+                </a>
+                <a href="#" class="nav-link" data-tab="analysis">
+                    <i data-lucide="brain-circuit"></i>
+                    <span>AI Analysis</span>
+                </a>
+                <a href="#" class="nav-link" data-tab="nutrition">
+                    <i data-lucide="utensils"></i>
+                    <span>Nutrition</span>
+                </a>
+                <a href="#" class="nav-link" data-tab="people">
+                    <i data-lucide="users"></i>
+                    <span>Manage People</span>
+                </a>
+                <a href="#" class="nav-link" data-tab="reports">
+                    <i data-lucide="file-text"></i>
+                    <span>Reports</span>
+                </a>
+                <a href="#" class="nav-link" data-tab="settings">
+                    <i data-lucide="settings"></i>
+                    <span>Settings</span>
+                </a>
+            </nav>
+            <div class="user-profile-mini">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Harshi" alt="User Avatar" class="avatar">
+                <div class="user-info">
+                    <span class="user-name">Harshi</span>
+                    <span class="user-status">Pro Member</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+                <div class="search-bar">
+                    <i data-lucide="search"></i>
+                    <input type="text" placeholder="Search metrics, goals, or AI insights...">
+                </div>
+                <div class="header-actions">
+                    <button class="btn-icon">
+                        <i data-lucide="bell"></i>
+                        <span class="badge"></span>
+                    </button>
+                    <button class="btn-creative" id="launchSite">
+                        <i data-lucide="external-link"></i>
+                        <span>Launch App</span>
+                    </button>
+                    <button class="btn-primary">
+                        <i data-lucide="plus"></i>
+                        <span>New Entry</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Dashboard Sections -->
+            <div id="overview" class="tab-content active">
+                <div class="welcome-section">
+                    <h1>Good Morning, <span>Harshi</span></h1>
+                    <p>Your AI health assistant has 3 new insights for you today.</p>
+                </div>
+
+                <!-- Metric Cards -->
+                <div class="metrics-grid">
+                    <div class="card metric-card glass glow-rose">
+                        <div class="card-header">
+                            <span class="card-title">Heart Rate</span>
+                            <i data-lucide="heart" class="text-rose"></i>
+                        </div>
+                        <div class="card-body">
+                            <h2 class="metric-value">72 <span>BPM</span></h2>
+                            <p class="metric-trend up"><i data-lucide="trending-up"></i> +2% from avg</p>
+                        </div>
+                        <div class="sparkline-container">
+                            <canvas id="heartRateChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="card metric-card glass glow-blue">
+                        <div class="card-header">
+                            <span class="card-title">Daily Steps</span>
+                            <i data-lucide="footprints" class="text-blue"></i>
+                        </div>
+                        <div class="card-body">
+                            <h2 class="metric-value">8,432 <span>steps</span></h2>
+                            <p class="metric-trend up"><i data-lucide="trending-up"></i> 84% of goal</p>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 84%;"></div>
+                        </div>
+                    </div>
+                    <div class="card metric-card glass glow-indigo">
+                        <div class="card-header">
+                            <span class="card-title">Sleep Quality</span>
+                            <i data-lucide="moon" class="text-indigo"></i>
+                        </div>
+                        <div class="card-body">
+                            <h2 class="metric-value">7h 45m <span>deep</span></h2>
+                            <p class="metric-trend up"><i data-lucide="trending-up"></i> +12% from yesterday</p>
+                        </div>
+                        <div class="sparkline-container">
+                            <canvas id="sleepChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="card metric-card glass glow-orange">
+                        <div class="card-header">
+                            <span class="card-title">Calories Burned</span>
+                            <i data-lucide="flame" class="text-orange"></i>
+                        </div>
+                        <div class="card-body">
+                            <h2 class="metric-value">1,240 <span>kcal</span></h2>
+                            <p class="metric-trend neutral">On track</p>
+                        </div>
+                        <div class="sparkline-container">
+                            <canvas id="caloriesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Activity Chart and AI Insights -->
+                <div class="dashboard-secondary-grid">
+                    <div class="card main-chart-card glass">
+                        <div class="card-header">
+                            <span class="card-title">Weekly Activity Trend</span>
+                            <div class="chart-filters">
+                                <button class="filter-btn active">Week</button>
+                                <button class="filter-btn">Month</button>
+                            </div>
+                        </div>
+                        <div class="chart-canvas-container">
+                            <canvas id="mainActivityChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="card ai-insights-card glass">
+                        <div class="card-header">
+                            <span class="card-title">AI Health Insights</span>
+                            <span class="ai-badge">LIVE AI</span>
+                        </div>
+                        <div class="insights-list" id="ai-insights-list">
+                            <!-- AI insights will be populated by JS -->
+                            <div class="shimmer-loader"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analysis Tab -->
+            <div id="analysis" class="tab-content">
+                <div class="welcome-section">
+                    <h1>AI Health <span>Deep Dive</span></h1>
+                    <p>Predictive analytics and long-term diagnostic trends.</p>
+                </div>
+                <div class="analysis-grid">
+                    <div class="card glass">
+                        <div class="card-header">
+                            <span class="card-title">Predictive Heart Rate</span>
+                            <span class="ai-badge">AI MODEL v2.4</span>
+                        </div>
+                        <div class="chart-canvas-container-large">
+                            <canvas id="predictiveHRChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="analysis-side-cards">
+                        <div class="card glass small-metric">
+                            <span class="card-title">Sleep Efficiency</span>
+                            <h3 id="sleep-score-val">--%</h3>
+                            <div class="mini-progress"><div class="progress" id="sleep-score-progress"></div></div>
+                        </div>
+                        <div class="card glass small-metric">
+                            <span class="card-title">Recovery Index</span>
+                            <h3 id="recovery-score-val">--/100</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nutrition Tab -->
+            <div id="nutrition" class="tab-content">
+                <div class="welcome-section">
+                    <h1>Nutritional <span>Intelligence</span></h1>
+                    <p>AI-driven meal planning and macro-nutrient tracking.</p>
+                </div>
+                <div class="nutrition-grid">
+                    <div class="card glass macro-card">
+                        <span class="card-title">Daily Macros</span>
+                        <div class="macro-rings">
+                            <div class="macro-ring protein" data-val="30"><span>Protein</span></div>
+                            <div class="macro-ring carbs" data-val="50"><span>Carbs</span></div>
+                            <div class="macro-ring fats" data-val="20"><span>Fats</span></div>
+                        </div>
+                    </div>
+                    <div class="card glass ai-meal-plan">
+                        <div class="card-header">
+                            <span class="card-title">AI Suggested Meal Plan</span>
+                            <i data-lucide="sparkles" class="text-indigo"></i>
+                        </div>
+                        <div id="meal-plan-list" class="meal-list">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- People Management Tab -->
+            <div id="people" class="tab-content">
+                <div class="welcome-section">
+                    <h1>Manage <span>People</span></h1>
+                    <p>Track and monitor health status for family, friends, or patients.</p>
+                </div>
+                <div class="users-list-grid" id="people-list">
+                    <!-- User list will be populated by JS -->
+                </div>
+            </div>
+
+            <!-- Reports Tab -->
+            <div id="reports" class="tab-content">
+                <div class="welcome-section">
+                    <h1>Health <span>Reports</span></h1>
+                    <p>Downloadable summaries and historical trend reports.</p>
+                </div>
+                <div class="reports-grid" id="reports-container">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div id="settings" class="tab-content">
+                <div class="welcome-section">
+                    <h1>System <span>Settings</span></h1>
+                    <p>Manage your profile, preferences, and security.</p>
+                </div>
+                <div class="card glass settings-form-card">
+                    <form id="settings-form" class="settings-form">
+                        <div class="form-group">
+                            <label>Display Name</label>
+                            <input type="text" id="setting-name" value="Harshi">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Daily Step Goal</label>
+                                <input type="number" id="setting-step-goal" value="10000">
+                            </div>
+                            <div class="form-group">
+                                <label>Theme Preference</label>
+                                <select class="glass-select">
+                                    <option>Deep Navy (Default)</option>
+                                    <option>Cyber Violet</option>
+                                    <option>Minimal Light</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>AI Insight Frequency</label>
+                            <input type="range" min="1" max="10" value="7">
+                        </div>
+                        <button type="submit" class="btn-primary">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div id="addUserModal" class="modal-overlay">
+        <div class="modal-content glass">
+            <div class="modal-header">
+                <h2>Add <span>New Person</span></h2>
+                <button class="btn-close" id="closeModal">×</button>
+            </div>
+            <form id="addUserForm" class="modal-form">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" name="name" required placeholder="Enter name">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Age</label>
+                        <input type="number" name="age" required placeholder="Age">
+                    </div>
+                    <div class="form-group">
+                        <label>Base Heart Rate</label>
+                        <input type="number" name="heartRate" required placeholder="BPM">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Step Goal</label>
+                    <input type="number" name="stepGoal" required placeholder="e.g., 10000">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" id="cancelModal">Cancel</button>
+                    <button type="submit" class="btn-primary">Add Person</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script src="script.js"></script>
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>
